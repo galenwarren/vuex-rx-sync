@@ -1,2 +1,2 @@
-# sync-store
+# vuex-sync-store
 Store syncing utilities
