@@ -8,7 +8,9 @@
 
 Store syncing utilities
 
-Use `npm run commit` to commit using commitizen.
+[Documentation](https://galenwarren.github.io/sync-store/)
+
+Use `npm run commit` to commit using [Commitizen](https://github.com/commitizen/cz-cli) using conventional Angular [conventions](https://github.com/commitizen/cz-conventional-changelog).
 
 ## Under construction, please check back later ...
 
