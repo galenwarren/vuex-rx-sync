@@ -13,7 +13,6 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
@@ -29,7 +28,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests and record coverage
       - run:
           name: Test
           command: |
@@ -37,3 +35,7 @@ jobs:
             if [ "$CIRCLE_BRANCH" == "master" ]; then
               npm run coverage:record;
             fi
+
+      - run:
+          name: Build docs
+          command: npm run docs:build

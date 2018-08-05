@@ -8,4 +8,6 @@
 
 Store syncing utilities
 
+Use `npm run commit` to commit using commitizen.
+
 ## Under construction, please check back later ...

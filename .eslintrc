@@ -15,4 +15,5 @@ plugins:
 
 env:
   es6: true
+  commonjs: true
   jest/globals: true
