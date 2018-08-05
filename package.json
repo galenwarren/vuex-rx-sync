@@ -22,7 +22,7 @@
     "build": "babel $npm_package_directories_src --out-dir $npm_package_directories_dist",
     "docs:dev": "vuepress dev $npm_package_directories_docs",
     "docs:build": "vuepress build $npm_package_directories_docs",
-    "commit": "git-cz"
+    "commit": "npx git-cz"
   },
   "repository": {
     "type": "git",
