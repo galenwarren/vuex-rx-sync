@@ -1,4 +1,3 @@
 title: sync-store
 description: Store sync tools
 base: /sync-store/
-dest: docs/.vuepress/publish

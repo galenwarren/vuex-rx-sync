@@ -38,4 +38,6 @@ jobs:
 
       - run:
           name: Build docs
-          command: npm run docs:build
+          command: |
+            npm run docs:build
+            npm run docs:publish
