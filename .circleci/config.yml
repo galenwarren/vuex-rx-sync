@@ -34,7 +34,6 @@ jobs:
           name: Test
           command: |
             npm run coverage
-            if [ "$CIRCLE_BRANCH" == "master"];
-            then
+            if [ "$CIRCLE_BRANCH" == "master" ]; then
               npm run coverage:record;
             fi
