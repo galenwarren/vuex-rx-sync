@@ -22,7 +22,7 @@
     "build": "babel $npm_package_directories_src --out-dir $npm_package_directories_dist",
     "docs:dev": "vuepress dev $npm_package_directories_docs",
     "docs:build": "vuepress build $npm_package_directories_docs",
-    "docs:publish": "push-dir --dir $npm_package_directories_docs/.vuepress/dist --branch=gh-pages",
+    "docs:publish": "push-dir --dir $npm_package_directories_docs/.vuepress/dist --branch=gh-pages --force",
     "commit": "npx git-cz"
   },
   "repository": {
