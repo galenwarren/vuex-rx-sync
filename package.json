@@ -14,9 +14,10 @@
   "scripts": {
     "lint": "eslint --fix $npm_package_directories_src",
     "precommit": "lint-staged",
-    "test": "jest src",
-    "test:watch": "jest --watch src",
-    "coverage": "jest --coverage src",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "coverage": "jest --coverage",
+    "test:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "build": "babel $npm_package_directories_src --out-dir $npm_package_directories_dist",
     "docs:dev": "vuepress dev $npm_package_directories_docs",
     "docs:build": "vuepress build $npm_package_directories_docs"
