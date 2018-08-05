@@ -1,6 +1,6 @@
 {
   "name": "sync-store",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Utilities to sync databases to local stores",
   "main": "src/index.js",
   "files": [
@@ -14,10 +14,10 @@
   "scripts": {
     "lint": "eslint --fix $npm_package_directories_src",
     "precommit": "lint-staged",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "coverage": "jest --coverage",
-    "test:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test": "jest $npm_package_directories_src",
+    "test:watch": "jest --watch $npm_package_directories_src",
+    "coverage": "jest --coverage $npm_package_directories_src",
+    "coverage:record": "jest --coverage $npm_package_directories_src --coverageReporters=text-lcov > coveralls",
     "build": "babel $npm_package_directories_src --out-dir $npm_package_directories_dist",
     "docs:dev": "vuepress dev $npm_package_directories_docs",
     "docs:build": "vuepress build $npm_package_directories_docs"
