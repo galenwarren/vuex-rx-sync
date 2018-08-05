@@ -11,3 +11,9 @@ Store syncing utilities
 Use `npm run commit` to commit using commitizen.
 
 ## Under construction, please check back later ...
+
+Notes:
+
+* If used with Vue, then the [vue-rx](https://github.com/vuejs/vue-rx) plugin must be installed
+* If used with Vuex, must install mutations (more detail needed here)
+* For Nuxt, show how to use with asyncData
