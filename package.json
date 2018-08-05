@@ -1,7 +1,7 @@
 {
   "name": "sync-store",
   "version": "0.0.1",
-  "description": "Utilities to sync databases to local stores",
+  "description": "Pluggable store syncing utilities",
   "main": "src/index.js",
   "files": [
     "./dist"
