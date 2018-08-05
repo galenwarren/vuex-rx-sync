@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - add_ssh_keys
-      
+
       - checkout
 
       - restore_cache:
@@ -39,7 +39,9 @@ jobs:
             fi
 
       - run:
-          name: Build docs
+          name: Build and deploy docs
           command: |
+            git config --global user.email "$GIT_AUTHOR_EMAIL"
+            git config --global user.name "$GIT_AUTHOR_NAME"
             npm run docs:build
             npm run docs:publish
