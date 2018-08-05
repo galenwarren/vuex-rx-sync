@@ -3,10 +3,23 @@
   "version": "1.0.0",
   "description": "Utilities to sync databases to local stores",
   "main": "src/index.js",
+  "files": [
+    "./dist"
+  ],
+  "directories": {
+    "src": "./src",
+    "dist": "./dist",
+    "docs": "./docs"
+  },
   "scripts": {
-    "lint": "eslint --fix src",
+    "lint": "eslint --fix $npm_package_directories_src",
     "precommit": "lint-staged",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest src",
+    "test:watch": "jest --watch src",
+    "coverage": "jest --coverage src",
+    "build": "babel $npm_package_directories_src --out-dir $npm_package_directories_dist",
+    "docs:dev": "vuepress dev $npm_package_directories_docs",
+    "docs:build": "vuepress build $npm_package_directories_docs"
   },
   "repository": {
     "type": "git",
@@ -26,13 +39,19 @@
   },
   "homepage": "https://github.com/galenwarren/sync-store#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "coveralls": "^3.0.2",
     "eslint": "^5.3.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.18.0",
     "eslint-plugin-prettier": "^2.6.2",
     "husky": "^0.14.3",
+    "jest": "^23.4.2",
     "lint-staged": "^7.2.0",
-    "prettier": "^1.14.0"
+    "prettier": "^1.14.0",
+    "vuepress": "^0.13.1"
   },
   "dependencies": {
     "firebase": "^5.3.1",
