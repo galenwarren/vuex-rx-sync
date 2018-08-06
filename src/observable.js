@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import memoize from "memoizee";
-import { watch } from "./utils";
+import { switchMappable } from "./utils";
 import { deleteMemoizeRef } from "./transforms";
 
 export const defaultResetAction = ({ path, storeSet }) =>
@@ -8,7 +8,7 @@ export const defaultResetAction = ({ path, storeSet }) =>
 
 export function syncStoreObservable(options) {
   const {
-    observable: factory,
+    observable: observableFactory,
     store,
     sources,
     resetAction = defaultResetAction
@@ -49,5 +49,9 @@ export function syncStoreObservable(options) {
     return source.observe(sourceLocation).pipe(updateStore(path));
   };
 
-  return factory({ watch, updateStore, sync, sources });
+  return observableFactory({
+    sync: switchMappable(sync),
+    updateStore,
+    sources
+  });
 }

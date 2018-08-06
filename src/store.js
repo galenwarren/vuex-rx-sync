@@ -9,8 +9,8 @@ export function crackStorePath(path) {
     throw new Error(`Invalid path ${path}, length must be >= 1`);
   }
 
-  const trunkPath = path.slice(0, path.length - 1);
-  const leafKey = path[path.length - 1];
+  const trunkPath = path.slice();
+  const leafKey = trunkPath.pop();
   return { trunkPath, leafKey };
 }
 
