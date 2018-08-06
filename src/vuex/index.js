@@ -4,7 +4,11 @@ import objectPath from "object-path";
 export const SET_MUTATION = "vuexSync/set";
 export const DELETE_MUTATION = "vuexSync/delete";
 
-function crackPath(path) {
+export function crackStorePath(path) {
+  if (path.length < 1) {
+    throw new Error(`Invalid path ${path}, length must be >= 1`);
+  }
+
   const trunkPath = path.slice(0, path.length - 1);
   const leafKey = path[path.length - 1];
   return { trunkPath, leafKey };
@@ -12,13 +16,13 @@ function crackPath(path) {
 
 export const vuexSyncMutations = {
   [SET_MUTATION](state, { path, value }) {
-    const { trunkPath, leafKey } = crackPath(path);
+    const { trunkPath, leafKey } = crackStorePath(path);
     const trunk = objectPath.get(state, trunkPath);
     Vue.set(trunk, leafKey, value);
   },
 
   [DELETE_MUTATION](state, { path }) {
-    const { trunkPath, leafKey } = crackPath(path);
+    const { trunkPath, leafKey } = crackStorePath(path);
     const trunk = objectPath.get(state, trunkPath);
     Vue.delete(trunk, leafKey);
   }
