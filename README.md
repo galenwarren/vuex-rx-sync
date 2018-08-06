@@ -8,7 +8,7 @@
 
 Pluggable store syncing utilities for Vue/Vuex
 
-[Documentation](https://galenwarren.github.io/sync-store/)
+[Documentation](https://galenwarren.github.io/vuex-sync-store/)
 
 Use `npm run commit` to commit using [Commitizen](http://commitizen.github.io/cz-cli/) using standard [conventions](https://github.com/commitizen/cz-conventional-changelog).
 
