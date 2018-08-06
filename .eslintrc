@@ -1,5 +1,5 @@
 parserOptions:
-  ecmaVersion: 6
+  ecmaVersion: 8
   sourceType: module
   ecmaFeatures:
     impliedStrict: true
@@ -12,8 +12,10 @@ extends:
 
 plugins:
   - jest
+  - dependencies
 
 env:
   es6: true
   commonjs: true
   jest/globals: true
+  browser: true

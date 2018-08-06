@@ -1,5 +1,5 @@
-import { EMPTY, of } from "rxjs";
+import { EMPTY, from } from "rxjs";
 
 export function observeKeys(obj) {
-  return obj ? of(...Object.keys(obj)) : EMPTY;
+  return obj ? from(Object.keys(obj)) : EMPTY;
 }
