@@ -9,10 +9,6 @@ import {
 } from "../index";
 
 describe("vuex", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe("crackStorePath", () => {
     it("works with a path of length 2", () => {
       expect(crackStorePath(["a", "b"])).toEqual({

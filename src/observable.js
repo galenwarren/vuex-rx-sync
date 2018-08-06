@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { Observable, concat, of, fromEventPattern } from "rxjs";
 import memoize from "memoizee";
-import { deleteMemoizeRef } from "./memoize";
+import { deleteMemoizeRef } from "./transforms";
 
 const defaultResetAction = ({ path, setState }) => setState(path, undefined);
 

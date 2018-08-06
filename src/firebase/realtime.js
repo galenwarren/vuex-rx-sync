@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { share } from "rxjs/operators";
 import memoize from "memoizee";
 
-import { deleteMemoizeRef } from "../memoize";
+import { deleteMemoizeRef } from "../transforms";
 
 export const observe = memoize(
   (database, path) => {
