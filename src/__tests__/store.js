@@ -6,7 +6,7 @@ import {
   crackStorePath,
   vuexSyncMutations,
   VuexStore
-} from "../index";
+} from "../store";
 
 describe("vuex", () => {
   describe("crackStorePath", () => {

@@ -1,7 +1,7 @@
 {
-  "name": "sync-store",
+  "name": "vuex-sync-store",
   "version": "0.0.1",
-  "description": "Pluggable store syncing utilities",
+  "description": "Pluggable store syncing utilities for Vue/Vuex",
   "main": "src/index.js",
   "files": [
     "./dist"

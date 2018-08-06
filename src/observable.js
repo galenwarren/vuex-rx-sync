@@ -1,9 +1,10 @@
-import Vue from "vue";
-import { Observable, concat, of, fromEventPattern } from "rxjs";
+import { Observable } from "rxjs";
 import memoize from "memoizee";
+import { watch } from "./utils";
 import { deleteMemoizeRef } from "./transforms";
 
-const defaultResetAction = ({ path, setState }) => setState(path, undefined);
+export const defaultResetAction = ({ path, storeSet }) =>
+  storeSet(path, undefined);
 
 export function syncStoreObservable(options) {
   const {
@@ -13,26 +14,8 @@ export function syncStoreObservable(options) {
     resetAction = defaultResetAction
   } = options;
 
-  const watch = accessor => {
-    const vm = new Vue({
-      computed: {
-        value() {
-          return accessor();
-        }
-      }
-    });
-
-    return concat(
-      of(accessor()),
-      fromEventPattern(
-        handler => vm.$watch("value", handler),
-        (handler, unsubscribe) => unsubscribe()
-      )
-    );
-  };
-
+  // a couple store related helpers
   const storeSet = (path, value) => store.set(path, value);
-
   const storeDelete = path => store.delete(path);
 
   // keyed by the transform factory for the path

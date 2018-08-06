@@ -1,5 +1,5 @@
 import { Subscription } from "rxjs";
-import { syncStoreObservable } from "../observable";
+import { syncStoreObservable } from "./observable";
 
 export function syncStoreMixin(defaultOptions = {}) {
   return {
