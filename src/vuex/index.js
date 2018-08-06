@@ -18,18 +18,28 @@ export const vuexSyncMutations = {
   [SET_MUTATION](state, { path, value }) {
     const { trunkPath, leafKey } = crackStorePath(path);
     const trunk = objectPath.get(state, trunkPath);
+    if (!trunk) {
+      throw new Error(
+        `${SET_MUTATION}: Unable to set value at invalid path ${path}`
+      );
+    }
     Vue.set(trunk, leafKey, value);
   },
 
   [DELETE_MUTATION](state, { path }) {
     const { trunkPath, leafKey } = crackStorePath(path);
     const trunk = objectPath.get(state, trunkPath);
+    if (!trunk) {
+      throw new Error(
+        `${DELETE_MUTATION}: Unable to delete value at invalid path ${path}`
+      );
+    }
     Vue.delete(trunk, leafKey);
   }
 };
 
 export class VuexStore {
-  constructor(store) {
+  constructor({ store }) {
     this.store = store;
   }
 
