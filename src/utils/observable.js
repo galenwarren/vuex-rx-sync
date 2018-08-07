@@ -31,6 +31,14 @@ export const observeKeys = flatMappable(obj => {
   return obj ? from(Object.keys(obj)) : EMPTY;
 });
 
+export const observeValues = flatMappable(obj => {
+  return obj ? from(Object.values(obj)) : EMPTY;
+});
+
+export const observeArray = flatMappable(arr => {
+  return arr ? from(arr) : EMPTY;
+});
+
 export const watch = switchMappable(accessor => {
   const vm = new Vue({
     computed: {
