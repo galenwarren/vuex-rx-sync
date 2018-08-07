@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import defaultFirebase from "firebase/app";
 import { Observable } from "rxjs";
 import { share } from "rxjs/operators";
 import memoize from "memoizee";
@@ -20,14 +20,17 @@ export const observe = memoize(
   { refCounter: true }
 );
 
-export const defaultDatabaseAccessor = () => firebase.database();
+export const defaultDatabaseAccessor = firebase => firebase.database();
 
 export class FirebaseRealtimeSource {
-  constructor(options = {}) {
-    const { databaseAccessor = defaultDatabaseAccessor } = options;
+  constructor({
+    firebase = defaultFirebase,
+    database: databaseAccessor = defaultDatabaseAccessor
+  }) {
+    // const { databaseAccessor = defaultDatabaseAccessor } = options;
 
     this.observe = switchMappable(path => {
-      const database = databaseAccessor();
+      const database = databaseAccessor(firebase);
       return observe(database, path).pipe(
         deleteMemoizeRef(observe, database, path)
       );

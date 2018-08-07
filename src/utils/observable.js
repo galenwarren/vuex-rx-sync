@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { EMPTY, from, of, concat, fromEventPattern } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { switchMap, flatMap } from "rxjs/operators";
 
 export const mappable = (observableFactory, operator) => {
   return (...args) => {
@@ -24,7 +24,10 @@ export const mappable = (observableFactory, operator) => {
 export const switchMappable = observableFactory =>
   mappable(observableFactory, switchMap);
 
-export const observeKeys = switchMappable(obj => {
+export const flatMappable = observableFactory =>
+  mappable(observableFactory, flatMap);
+
+export const observeKeys = flatMappable(obj => {
   return obj ? from(Object.keys(obj)) : EMPTY;
 });
 
