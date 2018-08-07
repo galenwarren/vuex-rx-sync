@@ -2,6 +2,7 @@ import { Observable } from "rxjs";
 import memoize from "memoizee";
 import { switchMappable } from "./utils";
 import { deleteMemoizeRef } from "./transforms";
+import { SET_MUTATION, DELETE_MUTATION } from "./store";
 
 export const defaultResetAction = ({ path, storeSet }) =>
   storeSet(path, undefined);
@@ -15,8 +16,8 @@ export function syncStoreObservable(options) {
   } = options;
 
   // a couple store related helpers
-  const storeSet = (path, value) => store.set(path, value);
-  const storeDelete = path => store.delete(path);
+  const storeSet = (path, value) => store.commit(SET_MUTATION, { path, value });
+  const storeDelete = path => store.commit(DELETE_MUTATION, { path });
 
   // keyed by the transform factory for the path
   const updateStorePaths = new Map();

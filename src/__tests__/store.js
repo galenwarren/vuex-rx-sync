@@ -4,8 +4,7 @@ import {
   SET_MUTATION,
   DELETE_MUTATION,
   crackStorePath,
-  vuexSyncMutations,
-  VuexStore
+  vuexSyncMutations
 } from "../store";
 
 describe("vuex", () => {
@@ -99,28 +98,6 @@ describe("vuex", () => {
           "Unable to delete value at invalid path"
         );
       });
-    });
-  });
-
-  describe("VuexStore", () => {
-    const store = {
-      commit: jest.fn()
-    };
-
-    const vuexStore = new VuexStore({ store });
-    const path = ["a", "b"];
-    const value = 1;
-
-    it("properly sets values", () => {
-      vuexStore.set(path, value);
-      expect(store.commit).toHaveBeenCalledTimes(1);
-      expect(store.commit).toHaveBeenCalledWith(SET_MUTATION, { path, value });
-    });
-
-    it("properly deletes values", () => {
-      vuexStore.delete(path);
-      expect(store.commit).toHaveBeenCalledTimes(1);
-      expect(store.commit).toHaveBeenCalledWith(DELETE_MUTATION, { path });
     });
   });
 });

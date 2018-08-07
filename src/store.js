@@ -37,17 +37,3 @@ export const vuexSyncMutations = {
     Vue.delete(trunk, leafKey);
   }
 };
-
-export class VuexStore {
-  constructor({ store }) {
-    this.store = store;
-  }
-
-  set(path, value) {
-    this.store.commit(SET_MUTATION, { path, value });
-  }
-
-  delete(path) {
-    this.store.commit(DELETE_MUTATION, { path });
-  }
-}
