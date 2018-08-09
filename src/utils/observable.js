@@ -2,11 +2,14 @@ import Vue from "vue";
 import { EMPTY, from, of, concat, fromEventPattern } from "rxjs";
 import { switchMap, flatMap } from "rxjs/operators";
 
-export const mappable = (observableFactory, operator) => {
+export const mappable = (operator, observableFactory, argCount) => {
+  const baseArgCount =
+    argCount !== undefined ? argCount : observableFactory.length;
+
   return (...args) => {
-    if (args.length === observableFactory.length) {
+    if (args.length === baseArgCount) {
       return observableFactory(...args);
-    } else if (args.length === observableFactory.length + 1) {
+    } else if (args.length === baseArgCount + 1) {
       const factoryArgs = args.slice();
       const projection = factoryArgs.pop();
       return observableFactory(...factoryArgs).pipe(operator(projection));
@@ -21,11 +24,9 @@ export const mappable = (observableFactory, operator) => {
   };
 };
 
-export const switchMappable = observableFactory =>
-  mappable(observableFactory, switchMap);
+export const switchMappable = mappable.bind(null, switchMap);
 
-export const flatMappable = observableFactory =>
-  mappable(observableFactory, flatMap);
+export const flatMappable = mappable.bind(null, flatMap);
 
 export const observeKeys = flatMappable(obj => {
   return obj ? from(Object.keys(obj)) : EMPTY;
@@ -51,7 +52,7 @@ export const watch = switchMappable(accessor => {
   return concat(
     of(accessor()),
     fromEventPattern(
-      handler => vm.$watch("value", handler),
+      handler => vm.$watch("value", value => handler(value)),
       (handler, unsubscribe) => unsubscribe()
     )
   );
