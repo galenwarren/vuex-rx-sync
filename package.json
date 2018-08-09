@@ -1,7 +1,7 @@
 {
-  "name": "vuex-sync-store",
+  "name": "vuex-rx-sync",
   "version": "0.0.1",
-  "description": "Pluggable store syncing utilities for Vue/Vuex",
+  "description": "Sync vuex to external stores using rxjs",
   "main": "src/index.js",
   "files": [
     "./dist"
@@ -31,21 +31,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/galenwarren/sync-store.git"
+    "url": "git+https://github.com/galenwarren/vuex-rx-sync.git"
   },
   "keywords": [
     "sync",
     "store",
     "vue",
     "vuex",
-    "firebase"
+    "firebase",
+    "rxjs"
   ],
   "author": "Galen Warren <galenwarren@users.noreply.github.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/galenwarren/sync-store/issues"
+    "url": "https://github.com/galenwarren/vuex-rx-sync/issues"
   },
-  "homepage": "https://github.com/galenwarren/sync-store#readme",
+  "homepage": "https://galenwarren.github.io/vuex-rx-sync/",
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
