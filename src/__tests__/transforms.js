@@ -1,8 +1,8 @@
 import { from } from "rxjs";
 import { toArray } from "rxjs/operators";
-import { onUnsubscribe } from "../transforms";
+import { onUnsubscribe } from "../transform";
 
-describe("transforms", () => {
+describe("transform", () => {
   const values = [1, 2, 3];
   const observable = from(values);
 
