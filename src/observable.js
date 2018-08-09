@@ -7,7 +7,7 @@ import { SET_MUTATION, DELETE_MUTATION } from "./store";
 export const defaultResetAction = ({ path, storeSet }) =>
   storeSet(path, undefined);
 
-export function syncStoreObservable(options) {
+export function rxSyncObservable(options) {
   const {
     observable: observableFactory,
     store,
