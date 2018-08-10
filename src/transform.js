@@ -4,11 +4,9 @@ export function onUnsubscribe(action) {
   return source =>
     Observable.create(subscriber => {
       const subscription = source.subscribe(subscriber);
-      return {
-        unsubscribe() {
-          subscription.unsubscribe();
-          action();
-        }
+      return () => {
+        subscription.unsubscribe();
+        action();
       };
     });
 }
