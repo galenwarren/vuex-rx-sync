@@ -8,7 +8,10 @@ export function sourceFactory({ createObservable, enrichArgs }) {
     const enrich = enrichArgs(options);
     const memoizedFactory = memoize(
       (...enrichedArgs) => createObservable(...enrichedArgs).pipe(share()),
-      { length: createObservable.length }
+      {
+        refCounter: true,
+        length: createObservable.length
+      }
     );
 
     return switchMappable(
