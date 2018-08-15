@@ -4,7 +4,7 @@ import {
   SET_MUTATION,
   DELETE_MUTATION,
   crackStorePath,
-  vuexSyncMutations
+  rxSyncMutations
 } from "../store";
 
 describe("vuex", () => {
@@ -25,11 +25,11 @@ describe("vuex", () => {
     });
   });
 
-  describe("vuexSyncMutations", () => {
+  describe("rxSyncMutations", () => {
     describe(SET_MUTATION, () => {
       const vueSet = jest.spyOn(Vue, "set");
 
-      const setMutation = vuexSyncMutations[SET_MUTATION];
+      const setMutation = rxSyncMutations[SET_MUTATION];
 
       it("sets a shallow value", () => {
         const state = {};
@@ -63,18 +63,19 @@ describe("vuex", () => {
         expect(vueSet).toHaveBeenCalledWith(state.key1, "key2", 1);
       });
 
-      it("fails to update a deep value through nonexistent path", () => {
-        const state = { key1: { key2: 0 } };
-        expect(() =>
-          setMutation(state, { path: ["key2", "key2"], value: 1 })
-        ).toThrow("Unable to set value at invalid path");
+      it("updates a deep value through nonexistent path", () => {
+        const state = { key1: {} };
+        setMutation(state, { path: ["key1", "key2"], value: 1 });
+        expect(state.key1.key2).toBe(1);
+        expect(vueSet).toHaveBeenCalledTimes(1);
+        expect(vueSet).toHaveBeenCalledWith(state.key1, "key2", 1);
       });
     });
 
     describe(DELETE_MUTATION, () => {
       const vueDelete = jest.spyOn(Vue, "delete");
 
-      const deleteMutation = vuexSyncMutations[DELETE_MUTATION];
+      const deleteMutation = rxSyncMutations[DELETE_MUTATION];
 
       it("deletes a shallow value", () => {
         const state = { key1: 1 };

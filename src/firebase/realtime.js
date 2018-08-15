@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import { Observable } from "rxjs";
+import log from "picolog";
 
 // in this database, a null value means the value doesn't exist, so translate
 // to undefined for the purposes of this library
@@ -15,11 +16,11 @@ export function firebaseRealtimeSource(path) {
     const database = firebase.database();
     const ref = database.ref(path);
 
-    console.log("firebaseRealtime:on", path);
+    log.trace("firebaseRealtime:on", path);
     ref.on("value", valueHandler, errorHandler);
 
     return () => {
-      console.log("firebaseRealtime:off", path);
+      log.trace("firebaseRealtime:off", path);
       ref.off();
     };
   });
