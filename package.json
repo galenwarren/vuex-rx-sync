@@ -26,7 +26,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
+      "pre-commit-disabled": "lint-staged"
     }
   },
   "repository": {
@@ -66,15 +66,16 @@
     "jest": "^23.4.2",
     "lint-staged": "^7.2.0",
     "prettier": "^1.14.0",
-    "push-dir": "^0.4.1",
-    "vuepress": "^0.13.1"
+    "push-dir": "^0.4.1"
   },
   "dependencies": {
     "firebase": "^5.3.1",
     "memoizee": "^0.4.12",
     "object-path": "^0.11.4",
+    "picolog": "^1.0.4",
     "rxjs": "^6.2.2",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vuepress": "^0.13.1"
   },
   "config": {
     "commitizen": {

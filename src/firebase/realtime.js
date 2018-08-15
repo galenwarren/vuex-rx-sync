@@ -1,26 +1,27 @@
-import defaultFirebase from "firebase/app";
+import firebase from "firebase/app";
 import { Observable } from "rxjs";
-import { sourceFactory } from "../source";
+import log from "picolog";
 
-export const defaultDatabaseAccessor = firebase => firebase.database();
+// in this database, a null value means the value doesn't exist, so translate
+// to undefined for the purposes of this library
+export function transformValue(value) {
+  return value === null ? undefined : value;
+}
 
-export default sourceFactory({
-  enrichArgs(options) {
-    const {
-      firebase = defaultFirebase,
-      databaseAccessor = defaultDatabaseAccessor
-    } = options;
+export function firebaseRealtimeSource(path) {
+  return Observable.create(subscriber => {
+    const valueHandler = value => subscriber.next(transformValue(value.val()));
+    const errorHandler = error => subscriber.error(error);
 
-    return path => [databaseAccessor(firebase), path];
-  },
+    const database = firebase.database();
+    const ref = database.ref(path);
 
-  createObservable(database, path) {
-    return Observable.create(subscriber => {
-      const valueHandler = value => subscriber.next(value.val());
-      const errorHandler = error => subscriber.error(error);
-      const ref = database.ref(path);
-      ref.on("value", valueHandler, errorHandler);
-      return () => ref.off();
-    });
-  }
-});
+    log.trace("firebaseRealtime:on", path);
+    ref.on("value", valueHandler, errorHandler);
+
+    return () => {
+      log.trace("firebaseRealtime:off", path);
+      ref.off();
+    };
+  });
+}
