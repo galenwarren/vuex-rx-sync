@@ -1,8 +1,8 @@
 import Vue from "vue";
 import objectPath from "object-path";
 
-export const SET_MUTATION = "vuexSync/set";
-export const DELETE_MUTATION = "vuexSync/delete";
+export const SET_MUTATION = "rxSync/set";
+export const DELETE_MUTATION = "rxSync/delete";
 
 export function crackStorePath(path) {
   if (path.length < 1) {
@@ -14,15 +14,20 @@ export function crackStorePath(path) {
   return { trunkPath, leafKey };
 }
 
-export const vuexSyncMutations = {
+export const rxSyncMutations = {
   [SET_MUTATION](state, { path, value }) {
     const { trunkPath, leafKey } = crackStorePath(path);
-    const trunk = objectPath.get(state, trunkPath);
-    if (!trunk) {
-      throw new Error(
-        `${SET_MUTATION}: Unable to set value at invalid path ${path}`
-      );
-    }
+
+    const trunk = trunkPath.reduce((obj, propertyName) => {
+      if (obj.hasOwnProperty(propertyName)) {
+        return obj[propertyName];
+      } else {
+        const propertyValue = {};
+        Vue.set(obj, propertyName, propertyValue);
+        return propertyValue;
+      }
+    }, state);
+
     Vue.set(trunk, leafKey, value);
   },
 
@@ -34,6 +39,7 @@ export const vuexSyncMutations = {
         `${DELETE_MUTATION}: Unable to delete value at invalid path ${path}`
       );
     }
+
     Vue.delete(trunk, leafKey);
   }
 };
