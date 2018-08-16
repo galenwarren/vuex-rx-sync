@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import defaultFirebase from "firebase/app";
 import { Observable } from "rxjs";
 import log from "picolog";
 
@@ -8,7 +8,7 @@ export function transformValue(value) {
   return value === null ? undefined : value;
 }
 
-export function firebaseRealtimeSource(path) {
+export function firebaseRealtimeSource(path, firebase = defaultFirebase) {
   return Observable.create(subscriber => {
     const valueHandler = value => subscriber.next(transformValue(value.val()));
     const errorHandler = error => subscriber.error(error);

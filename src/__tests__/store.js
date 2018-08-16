@@ -65,10 +65,10 @@ describe("vuex", () => {
 
       it("updates a deep value through nonexistent path", () => {
         const state = { key1: {} };
-        setMutation(state, { path: ["key1", "key2"], value: 1 });
-        expect(state.key1.key2).toBe(1);
-        expect(vueSet).toHaveBeenCalledTimes(1);
-        expect(vueSet).toHaveBeenCalledWith(state.key1, "key2", 1);
+        setMutation(state, { path: ["key1", "key2", "key3"], value: 1 });
+        expect(state.key1.key2.key3).toBe(1);
+        expect(vueSet).toHaveBeenCalledTimes(2);
+        expect(vueSet).toHaveBeenNthCalledWith(2, state.key1.key2, "key3", 1);
       });
     });
 
