@@ -1,8 +1,19 @@
 import Vue from "vue";
 import objectPath from "object-path";
+import log from "picolog";
 
-export const SET_MUTATION = "rxSync/set";
-export const DELETE_MUTATION = "rxSync/delete";
+export const SET_MUTATION = "vue-rx-sync/set";
+export const DELETE_MUTATION = "vue-rx-sync/delete";
+
+export const storeSet = store => (path, value) => {
+  log.trace("storeSet", path, value);
+  store.commit(SET_MUTATION, { path, value });
+};
+
+export const storeDelete = store => path => {
+  log.trace("storeDelete", path);
+  store.commit(DELETE_MUTATION, { path });
+};
 
 export function crackStorePath(path) {
   if (path.length < 1) {
