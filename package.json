@@ -17,7 +17,7 @@
     "test:watch": "jest --watch $npm_package_directories_src",
     "coverage": "jest --coverage $npm_package_directories_src",
     "coverage:record": "jest --coverage $npm_package_directories_src --coverageReporters=text-lcov | coveralls",
-    "build": "babel $npm_package_directories_src --out-dir $npm_package_directories_dist",
+    "build": "rimraf $npm_package_directories_dist && babel $npm_package_directories_src --out-dir $npm_package_directories_dist",
     "docs:dev": "vuepress dev $npm_package_directories_docs",
     "docs:build": "vuepress build $npm_package_directories_docs",
     "docs:publish": "push-dir --dir $npm_package_directories_docs/.vuepress/dist --branch=gh-pages --force --message=\"[ci skip]: deploy docs\"",
