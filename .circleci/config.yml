@@ -51,6 +51,7 @@ jobs:
       - run:
           name: Publish
           command: |
+            npm run build
             if [ "$CIRCLE_BRANCH" == "master" ]; then
               npm run publish
             fi

@@ -20,11 +20,7 @@ export const resolve = (value$, getKeys, getObservable, keyName = 'id') => {
         return combineLatest(
           keys.map(key =>
             getObservable(key).pipe(
-              map(value => {
-                const valueWithKey = { ...value };
-                valueWithKey[keyName] = key;
-                return valueWithKey;
-              })
+              map(value => Object.assign({ [keyName]: key }, value))
             )
           )
         );
