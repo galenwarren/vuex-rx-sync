@@ -5,6 +5,5 @@
         "browsers": ["last 2 versions", "ie >= 11"]
       }
     }]
-  ],
-  "ignore": "**/__tests__"
+  ]
 }
