@@ -2,9 +2,9 @@
   "name": "vuex-rx-sync",
   "version": "0.0.0-development",
   "description": "Sync vuex to external stores using rxjs",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "files": [
-    "./dist"
+    "dist/"
   ],
   "directories": {
     "src": "./src",
