@@ -47,3 +47,10 @@ jobs:
               git config --global user.name "$GIT_AUTHOR_NAME";
               npm run docs:publish;
             fi
+
+      - run:
+          name: Publish
+          command: |
+            if [ "$CIRCLE_BRANCH" == "master" ]; then
+              npm run publish
+            fi

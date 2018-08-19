@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export function afterUnsubscribe(action, delay) {
   return source =>
