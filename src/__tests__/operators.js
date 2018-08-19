@@ -1,8 +1,8 @@
-import { of } from "rxjs";
-import { afterUnsubscribe } from "../operators";
+import { of } from 'rxjs';
+import { afterUnsubscribe } from '../operators';
 
-describe("afterUnsubscribe", () => {
-  it("should call action after unsubscribe occurs", callback => {
+describe('afterUnsubscribe', () => {
+  it('should call action after unsubscribe occurs', callback => {
     const action = jest.fn(() => {
       callback();
     });

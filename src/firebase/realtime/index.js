@@ -1,1 +1,1 @@
-export { firebaseRealtimeSource } from "./realtime";
+export { firebaseRealtimeSource } from './realtime';

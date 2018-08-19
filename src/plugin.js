@@ -1,15 +1,18 @@
-import { combineLatest } from "rxjs";
-import { pluck, switchMap, map } from "rxjs/operators";
-import log from "picolog";
+import { combineLatest, of } from 'rxjs';
+import { pluck, switchMap, map } from 'rxjs/operators';
 import { syncObservableRefCounted } from './sync';
 
-export const watch = vm => target => {
+/**
+ * Watches a value through the provided vm, returning the current value
+ * and just returning the new values
+ */
+export const watchFactory = vm => target => {
   return vm
     .$watchAsObservable(target, { immediate: true })
-    .pipe(pluck("newValue"));
+    .pipe(pluck('newValue'));
 };
 
-export const resolve = (value$, getKeys, getObservable, keyName = "id") => {
+export const resolve = (value$, getKeys, getObservable, keyName = 'id') => {
   return value$.pipe(
     switchMap(value => {
       const keys = getKeys(value);
@@ -35,10 +38,11 @@ export const resolve = (value$, getKeys, getObservable, keyName = "id") => {
 export const rxSync = options => {
   const sync = syncObservableRefCounted(options);
   return function() {
-    return { sync, resolve, watch: watch(this) };
+    return { sync, resolve, watch: watchFactory(this) };
   };
-}
+};
 
+// kgw consider contributing this to vue-rx?
 export const getObservable = function(name) {
   if (this.$observables) {
     const observable = this.$observables[name];
@@ -54,7 +58,31 @@ export const getObservable = function(name) {
 
 export const VueRxSync = {
   install(Vue, options) {
-    Vue.prototype.$rxSync = rxSync(options);
+    // kgw remove if contribute to vue-rx
     Vue.prototype.$getObservable = getObservable;
-  }
+
+    const sync = syncObservableRefCounted(options);
+
+    Vue.prototype.$rxSync = function() {
+      return {
+        sync,
+        resolve,
+        watch: watchFactory(this),
+      };
+    };
+
+    // the vm we use for off-component watching
+    let vmWatch = null;
+
+    Vue.$rxSync = {
+      sync,
+      resolve,
+      get watch() {
+        if (!vmWatch) {
+          vmWatch = new Vue();
+        }
+        return watchFactory(vmWatch);
+      },
+    };
+  },
 };

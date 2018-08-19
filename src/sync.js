@@ -1,10 +1,9 @@
-import { Observable, Subscription, combineLatest, of, EMPTY } from "rxjs";
-import { tap, map, publishReplay, pluck, switchMap } from "rxjs/operators";
-import memoize from "memoizee";
-import objectPath from "object-path";
-import log from "picolog";
-import { afterUnsubscribe } from "./operators";
-import { SET_MUTATION, DELETE_MUTATION, crackStorePath, storeSet, storeDelete } from "./store";
+import { Observable, Subscription, EMPTY } from 'rxjs';
+import { tap, publishReplay } from 'rxjs/operators';
+import memoize from 'memoizee';
+import objectPath from 'object-path';
+import { afterUnsubscribe } from './operators';
+import { crackStorePath, storeSet, storeDelete } from './store';
 
 export const DEFAULT_DISPOSE_DELAY = 3000;
 
@@ -74,7 +73,7 @@ export const syncObservableRefCounted = options => {
     length: 1,
     primitive: true,
     refCounter: true,
-    dispose: storeValue$ => disposers.get(storeValue$)()
+    dispose: storeValue$ => disposers.get(storeValue$)(),
   });
 
   return path => {

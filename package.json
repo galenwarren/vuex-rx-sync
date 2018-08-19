@@ -1,6 +1,6 @@
 {
   "name": "vuex-rx-sync",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "Sync vuex to external stores using rxjs",
   "main": "src/index.js",
   "files": [
@@ -21,12 +21,13 @@
     "docs:dev": "vuepress dev $npm_package_directories_docs",
     "docs:build": "vuepress build $npm_package_directories_docs",
     "docs:publish": "push-dir --dir $npm_package_directories_docs/.vuepress/dist --branch=gh-pages --force --message=\"[ci skip]: deploy docs\"",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "publish": "semantic-release"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit-disabled": "lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "repository": {
@@ -66,7 +67,11 @@
     "jest": "^23.4.2",
     "lint-staged": "^7.2.0",
     "prettier": "^1.14.0",
-    "push-dir": "^0.4.1"
+    "push-dir": "^0.4.1",
+    "rxjs": "^6.2.2",
+    "semantic-release": "^15.9.9",
+    "vue": "^2.5.17",
+    "vuepress": "^0.13.1"
   },
   "dependencies": {
     "memoizee": "^0.4.12",
@@ -74,10 +79,8 @@
     "picolog": "^1.0.4"
   },
   "peerDependencies": {
-    "firebase": "^5.3.1",
-    "rxjs": "^6.2.2",
-    "vue": "^2.5.17",
-    "vuepress": "^0.13.1"
+    "rxjs": "^6.0.0",
+    "vue": "^2.0.0"
   },
   "config": {
     "commitizen": {
