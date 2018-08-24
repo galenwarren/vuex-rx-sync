@@ -1,5 +1,5 @@
 import { combineLatest, of } from 'rxjs';
-import { pluck, switchMap, map } from 'rxjs/operators';
+import { pluck, switchMap } from 'rxjs/operators';
 import { syncObservableRefCounted } from './sync';
 
 /**
@@ -12,18 +12,12 @@ export const watchFactory = vm => target => {
     .pipe(pluck('newValue'));
 };
 
-export const resolve = (value$, getKeys, getObservable, keyName = 'id') => {
+export const resolve = (value$, getKeys, getObservable) => {
   return value$.pipe(
     switchMap(value => {
       const keys = getKeys(value);
       if (keys && keys.length) {
-        return combineLatest(
-          keys.map(key =>
-            getObservable(key).pipe(
-              map(value => Object.assign({ [keyName]: key }, value))
-            )
-          )
-        );
+        return combineLatest(keys.map(getObservable));
       } else {
         return of([]);
       }
