@@ -7,7 +7,7 @@ import { crackStorePath, storeSet, storeDelete } from './store';
 
 export const DEFAULT_DISPOSE_DELAY = 3000;
 
-export const DEFAULT_KEYNAME = '.id';
+export const DEFAULT_KEYNAME = '.key';
 
 const disposers = new WeakMap();
 
