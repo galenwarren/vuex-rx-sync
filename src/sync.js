@@ -7,19 +7,12 @@ import { crackStorePath, storeSet, storeDelete } from './store';
 
 export const DEFAULT_DISPOSE_DELAY = 3000;
 
-export const DEFAULT_KEYNAME = '.key';
-
 const disposers = new WeakMap();
 
 export const defaultReset = (path, { storeSet }) => storeSet(path, undefined);
 
 export const syncObservable = options => path => {
-  const {
-    dataSource,
-    store,
-    reset = defaultReset,
-    keyName = DEFAULT_KEYNAME,
-  } = options;
+  const { dataSource, store, reset = defaultReset } = options;
 
   // if property doesn't exist, create it so it will be reactive
   const { trunkPath, leafKey } = crackStorePath(path);
@@ -36,16 +29,13 @@ export const syncObservable = options => path => {
     );
   }).pipe(publishReplay(1));
 
-  // the key to return along with the values from the store
-  const key = path[path.length - 1];
-
   // create connectable observable that sets and/or deletes values in the store
   const sourceValue$ = dataSource(path).pipe(
     tap(value => {
       if (value === undefined) {
         storeDelete(store)(path);
       } else {
-        storeSet(store)(path, Object.assign({ [keyName]: key }, value));
+        storeSet(store)(path, value);
       }
     })
   );
