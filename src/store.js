@@ -2,8 +2,8 @@ import Vue from 'vue';
 import objectPath from 'object-path';
 import log from 'picolog';
 
-export const SET_MUTATION = 'vue-rx-sync/set';
-export const DELETE_MUTATION = 'vue-rx-sync/delete';
+export const SET_MUTATION = 'vue-rx-sync/SET';
+export const DELETE_MUTATION = 'vue-rx-sync/DELETE';
 
 export const storeSet = store => (path, value) => {
   log.trace('storeSet', path, value);
