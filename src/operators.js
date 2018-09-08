@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export function afterUnsubscribe(action, delay) {
   return source =>
@@ -16,11 +17,15 @@ export function afterUnsubscribe(action, delay) {
 export function addAttribute(key, attributeValue) {
   return source =>
     Observable.create(subscriber => {
-      return source.subscribe(
-        value =>
-          subscriber.next(Object.assign({}, value, { [key]: attributeValue })),
-        error => subscriber.error(error),
-        () => subscriber.complete()
-      );
+      return source
+        .pipe(
+          map(
+            value =>
+              value
+                ? Object.assign({}, value, { [key]: attributeValue })
+                : value
+          )
+        )
+        .subscribe(subscriber);
     });
 }

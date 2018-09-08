@@ -1,1 +1,0 @@
-export { firebaseRealtimeSource } from './realtime';
