@@ -1,0 +1,1 @@
+export const DEFAULT_DISPOSE_DELAY = 3000;

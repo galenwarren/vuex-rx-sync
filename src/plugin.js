@@ -1,78 +1,45 @@
-import { combineLatest, of } from 'rxjs';
-import { pluck, switchMap } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 import { syncObservableRefCounted } from './sync';
+import { findObservable } from './util';
+import { resolve, addAttribute } from './operators';
 
-/**
- * Watches a value through the provided vm, returning the current value
- * and just returning the new values
- */
-export const watchFactory = vm => target => {
-  return vm
-    .$watchAsObservable(target, { immediate: true })
-    .pipe(pluck('newValue'));
-};
+export function watchFactory(vm) {
+  return target =>
+    vm.$watchAsObservable(target, { immediate: true }).pipe(pluck('newValue'));
+}
 
-export const resolve = (value$, getKeys, getObservable) => {
-  return value$.pipe(
-    switchMap(value => {
-      const keys = getKeys(value);
-      if (keys && keys.length) {
-        return combineLatest(keys.map(getObservable));
-      } else {
-        return of([]);
-      }
-    })
-  );
-};
-
-export const rxSync = options => {
-  const sync = syncObservableRefCounted(options);
-  return function() {
-    return { sync, resolve, watch: watchFactory(this) };
-  };
-};
-
-// kgw consider contributing this to vue-rx?
-export const getObservable = function(name) {
-  if (this.$observables) {
-    const observable = this.$observables[name];
-    if (observable) {
-      return observable;
-    }
-  }
-  if (this.$parent) {
-    return this.$parent.$getObservable(name);
-  }
-  return null;
-};
-
-export const VueRxSync = {
+export const VuexRxSync = {
   install(Vue, options) {
-    // kgw remove if contribute to vue-rx
-    Vue.prototype.$getObservable = getObservable;
-
+    // create the sync function to expose here
     const sync = syncObservableRefCounted(options);
 
-    Vue.prototype.$rxSync = function() {
-      return {
-        sync,
-        resolve,
-        watch: watchFactory(this),
-      };
-    };
+    // the base context information, everything but 'watch'
+    const context = { sync, resolve, addAttribute };
+
+    // assign the $findObservable helper
+    Vue.prototype.$findObservable = findObservable;
+
+    // assign the $rxSync property
+    Object.defineProperty(Vue.prototype, '$rxSync', {
+      get: function() {
+        return Object.assign({}, context, {
+          watch: watchFactory(this),
+        });
+      },
+    });
 
     // the vm we use for off-component watching
     let vmWatch = null;
 
-    Vue.$rxSync = {
-      sync,
-      resolve,
+    // assing a global $rxSync with a watch that uses the
+    // Vue instance above
+    Vue.$rxSync = Object.assign({}, context, {
       get watch() {
         if (!vmWatch) {
           vmWatch = new Vue();
         }
         return watchFactory(vmWatch);
       },
-    };
+    });
   },
 };

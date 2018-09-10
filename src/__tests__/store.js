@@ -1,35 +1,32 @@
 import Vue from 'vue';
 
-import {
-  SET_MUTATION,
-  DELETE_MUTATION,
-  crackStorePath,
-  rxSyncMutations,
-} from '../store';
+import { SET_MUTATION, DELETE_MUTATION, vuexRxSyncMutations } from '../store';
+
+import { crackPath } from '../util';
 
 describe('vuex', () => {
-  describe('crackStorePath', () => {
+  describe('crackPath', () => {
     it('works with a path of length 2', () => {
-      expect(crackStorePath(['a', 'b'])).toEqual({
+      expect(crackPath(['a', 'b'])).toEqual({
         trunkPath: ['a'],
         leafKey: 'b',
       });
     });
 
     it('works with a path of length 1', () => {
-      expect(crackStorePath(['a'])).toEqual({ trunkPath: [], leafKey: 'a' });
+      expect(crackPath(['a'])).toEqual({ trunkPath: [], leafKey: 'a' });
     });
 
     it('fails with a path of length 0', () => {
-      expect(() => crackStorePath([])).toThrow('Invalid path');
+      expect(() => crackPath([])).toThrow('Invalid path');
     });
   });
 
-  describe('rxSyncMutations', () => {
+  describe('vuexRxSyncMutations', () => {
     describe(SET_MUTATION, () => {
       const vueSet = jest.spyOn(Vue, 'set');
 
-      const setMutation = rxSyncMutations[SET_MUTATION];
+      const setMutation = vuexRxSyncMutations[SET_MUTATION];
 
       it('sets a shallow value', () => {
         const state = {};
@@ -75,7 +72,7 @@ describe('vuex', () => {
     describe(DELETE_MUTATION, () => {
       const vueDelete = jest.spyOn(Vue, 'delete');
 
-      const deleteMutation = rxSyncMutations[DELETE_MUTATION];
+      const deleteMutation = vuexRxSyncMutations[DELETE_MUTATION];
 
       it('deletes a shallow value', () => {
         const state = { key1: 1 };

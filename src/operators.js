@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, combineLatest } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 export function afterUnsubscribe(action, delay) {
   return source =>
@@ -28,4 +28,23 @@ export function addAttribute(key, attributeValue) {
         )
         .subscribe(subscriber);
     });
+}
+
+export function resolve(getKeys, getObservable) {
+  return source => {
+    return Observable.create(subscriber => {
+      return source
+        .pipe(
+          switchMap(value => {
+            const keys = getKeys(value);
+            if (keys && keys.length) {
+              return combineLatest(keys.map(getObservable));
+            } else {
+              return of([]);
+            }
+          })
+        )
+        .subscribe(subscriber);
+    });
+  };
 }

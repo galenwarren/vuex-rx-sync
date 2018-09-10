@@ -1,3 +1,4 @@
-export { VueRxSync } from './plugin';
-export { rxSyncMutations } from './store';
-export { addAttribute } from './operators';
+export { VuexRxSync } from './plugin';
+export { VuexRxSyncConfig } from './config';
+export { vuexRxSyncMutations } from './store';
+export { addAttribute, resolve } from './operators';
