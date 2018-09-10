@@ -22,10 +22,9 @@ export const VuexRxSync = {
     // assign the $rxSync property
     Object.defineProperty(Vue.prototype, '$rxSync', {
       get: function() {
-        return {
-          ...context,
+        return Object.assign({}, context, {
           watch: watchFactory(this),
-        };
+        });
       },
     });
 
@@ -34,14 +33,13 @@ export const VuexRxSync = {
 
     // assing a global $rxSync with a watch that uses the
     // Vue instance above
-    Vue.$rxSync = {
-      ...context,
+    Vue.$rxSync = Object.assign({}, context, {
       get watch() {
         if (!vmWatch) {
           vmWatch = new Vue();
         }
         return watchFactory(vmWatch);
       },
-    };
+    });
   },
 };
