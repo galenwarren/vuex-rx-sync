@@ -20,3 +20,5 @@ Notes:
 * Must install mutations for Vuex (more detail needed here)
 * For Nuxt, show how to use with asyncData
 * Roadmap for plugin development
+
+Reminder, to use npm link with this project, move vue, vuepress, and rxjs out of devDependencies and set main to src/index.js.
