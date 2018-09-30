@@ -11,10 +11,10 @@ export function watchFactory(vm) {
 export const VuexRxSync = {
   install(Vue, options) {
     // create the sync function to expose here
-    const sync = syncObservableRefCounted(options);
+    const { sync, reset } = syncObservableRefCounted(options);
 
     // the base context information, everything but 'watch'
-    const context = { sync, resolve, addAttribute };
+    const context = { sync, resolve, addAttribute, reset };
 
     // assign the $findObservable helper
     Vue.prototype.$findObservable = findObservable;
