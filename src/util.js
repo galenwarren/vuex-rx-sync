@@ -1,3 +1,5 @@
+import validate from 'validate.js';
+
 export function findObservable(name) {
   if (this.$observables) {
     const observable = this.$observables[name];
@@ -23,4 +25,18 @@ export function crackPath(path) {
   const trunkPath = path.slice();
   const leafKey = trunkPath.pop();
   return { trunkPath, leafKey };
+}
+
+export function validateOrThrow(target, options) {
+  const description = validate(target, options, {
+    format: 'flat',
+    fullMessages: false,
+  });
+  if (description !== undefined) {
+    throw new Error(description);
+  }
+}
+
+export function require(name) {
+  return { presence: { message: `${name} is required` } };
 }

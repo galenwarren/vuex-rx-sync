@@ -54,6 +54,7 @@
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
     "babel-cli": "^6.26.0",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-vue-app": "^2.0.0",
     "commitizen": "^2.10.1",
@@ -78,7 +79,8 @@
   },
   "dependencies": {
     "memoizee": "^0.4.12",
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "validate.js": "^0.12.0"
   },
   "peerDependencies": {
     "rxjs": "^6.0.0",

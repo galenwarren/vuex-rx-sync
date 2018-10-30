@@ -1,11 +1,16 @@
 import { Observable } from 'rxjs';
 import objectPath from 'object-path';
+import { validateOrThrow, require } from './util';
 import { SET_MUTATION, DELETE_MUTATION } from './store';
 import { DEFAULT_DISPOSE_DELAY } from './constants';
 
 export class VuexRxSyncConfig {
-  constructor(store, options = {}) {
-    this.store = store;
+  constructor(options = {}) {
+    validateOrThrow(options, {
+      store: { ...require('store') },
+      createDataObservable: { ...require('createDataObservable') },
+    });
+
     Object.assign(this, options);
   }
 
