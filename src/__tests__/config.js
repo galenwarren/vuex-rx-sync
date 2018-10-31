@@ -3,19 +3,24 @@ import { DEFAULT_DISPOSE_DELAY } from '../constants';
 import { SET_MUTATION, DELETE_MUTATION } from '../store';
 
 describe('VuexRxSyncConfig', () => {
-  let store = null;
-  let createDataObservable = null;
   let config = null;
 
+  const path = ['property1'];
+  const path2 = ['property2'];
+  const value = 3;
+
   beforeEach(() => {
-    store = {
+    const store = {
       state: {
-        property1: 1,
+        [path]: value,
       },
       commit: jest.fn(),
+      watch: jest.fn((access, send) => send(access())),
     };
-    createDataObservable = jest.fn();
-    config = new VuexRxSyncConfig({ store, createDataObservable });
+    config = new VuexRxSyncConfig({
+      store,
+      createDataObservable: jest.fn(),
+    });
   });
 
   describe('constructor', () => {
@@ -48,24 +53,19 @@ describe('VuexRxSyncConfig', () => {
 
   describe('getStoreValue', () => {
     it('should return the defined value', () => {
-      expect(config.getStoreValue(['property1'])).toEqual(1);
+      expect(config.getStoreValue(path)).toEqual(value);
     });
 
     it('should return undefined for missing immediate property', () => {
-      expect(config.getStoreValue(['property2'])).toEqual(undefined);
+      expect(config.getStoreValue(path2)).toEqual(undefined);
     });
 
     it('should return undefined for missing immediate property', () => {
-      expect(config.getStoreValue(['property1', 'property2'])).toEqual(
-        undefined
-      );
+      expect(config.getStoreValue(path.concat(path2))).toEqual(undefined);
     });
   });
 
   describe('setStoreValue', () => {
-    const path = ['property1'];
-    const value = 3;
-
     it('should generate the proper mutation', () => {
       config.setStoreValue(path, value);
       expect(config.store.commit).toHaveBeenCalledWith(SET_MUTATION, {
@@ -77,8 +77,6 @@ describe('VuexRxSyncConfig', () => {
 
   describe('deleteStoreValue', () => {
     it('should generate the proper mutation', () => {
-      const path = ['property1'];
-      const value = 3;
       config.deleteStoreValue(path, value);
       expect(config.store.commit).toHaveBeenCalledWith(DELETE_MUTATION, {
         path,
@@ -86,9 +84,30 @@ describe('VuexRxSyncConfig', () => {
     });
   });
 
-  describe('shouldDeleteStoreValue', () => {
-    const path = ['property1'];
+  describe('createStoreObservable', () => {
+    it('should properly create observable', async () => {
+      config.getStoreValue = jest.fn(() => value);
+      config.setStoreValue = jest.fn();
 
+      const o$ = config.createStoreObservable(path);
+
+      expect(config.getStoreValue).toHaveBeenCalledWith(path);
+      expect(config.setStoreValue).toHaveBeenCalledWith(path, value);
+
+      config.getStoreValue.mockClear();
+      config.setStoreValue.mockClear();
+
+      await new Promise(resolve => {
+        o$.subscribe(v => {
+          expect(v).toEqual(value);
+          expect(config.getStoreValue).toHaveBeenCalledWith(path);
+          resolve();
+        });
+      });
+    });
+  });
+
+  describe('shouldDeleteStoreValue', () => {
     it('should return true if value is undefined', () => {
       expect(config.shouldDeleteStoreValue(path, undefined)).toEqual(true);
     });
@@ -102,9 +121,6 @@ describe('VuexRxSyncConfig', () => {
   });
 
   describe('updateStore', () => {
-    const path = ['property1'];
-    const value = 3;
-
     it('should properly update value', () => {
       config.shouldDeleteStoreValue = jest.fn(() => false);
       config.setStoreValue = jest.fn();
@@ -131,8 +147,6 @@ describe('VuexRxSyncConfig', () => {
   });
 
   describe('resetStore', () => {
-    const path = ['property1'];
-
     it('should delete the store value', () => {
       config.deleteStoreValue = jest.fn();
       config.resetStore(path);

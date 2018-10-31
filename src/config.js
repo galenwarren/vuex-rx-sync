@@ -5,7 +5,7 @@ import { SET_MUTATION, DELETE_MUTATION } from './store';
 import { DEFAULT_DISPOSE_DELAY } from './constants';
 
 export class VuexRxSyncConfig {
-  constructor(options = {}) {
+  constructor(options) {
     validateOrThrow(options, {
       store: { ...require('store') },
       createDataObservable: { ...require('createDataObservable') },
@@ -35,6 +35,8 @@ export class VuexRxSyncConfig {
     this.setStoreValue(path, this.getStoreValue(path));
 
     // the observable for the value in the store we have just ensured exists
+    // note that this should not return the current value, we only want to
+    // generate values when something is set in the store
     return Observable.create(subscriber => {
       return this.store.watch(
         () => this.getStoreValue(path),
